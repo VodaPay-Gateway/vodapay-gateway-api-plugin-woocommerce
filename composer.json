@@ -1,0 +1,7 @@
+{
+    "require": {
+        "payum/iso4217": "^1.0",
+        "ramsey/uuid": "^3.9",
+        "vodapay-gateway/vodapay-gateway-api-client-php": "^1.0"
+    }
+}
