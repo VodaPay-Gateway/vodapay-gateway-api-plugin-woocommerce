@@ -1,11 +1,11 @@
 <?php
 
 /**
- * Plugin Name: Vodapay Gayeway Payment for Woocommerce
+ * Plugin Name: Vodapay Gateway Payment for Woocommerce
  * Plugin URI: https://www.vodacombusiness.co.za/business/solutions/financial-services/accept-payments?icmp=VB/Menu/Solutions/Financialservices/P3/Acceptpayments
  * Description: This plugin allows for local content payment systems for VFS technologies - API Version
  * Version: 2.0.0
- * Author: Vodapay Gayeway
+ * Author: Vodapay Gateway
  * Author URI: https://www.vodacombusiness.co.za/business/solutions/financial-services/accept-payments?icmp=VB/Menu/Solutions/Financialservices/P3/Acceptpayments
  * License: 2.0.0
  * License URL: http://www.gnu.org/licenses/gpl-2.0.txt
