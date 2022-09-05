@@ -1,4 +1,7 @@
 {
+    "config": {
+        "platform-check": false
+    },
     "require": {
         "payum/iso4217": "^1.0",
         "ramsey/uuid": "^3.9",
