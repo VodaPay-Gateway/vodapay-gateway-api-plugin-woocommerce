@@ -84,7 +84,7 @@ function vodapay_payment_init()
 
                 if ($this->enviroment == 'virtual-testing') {
                     $this->api_endpoint = 'https://api.vodapaygatewayuat.vodacom.co.za/V2/Pay/OnceOff';
-                    $this->test_header = false;
+                    $this->test_header = true;
                 }
                 if ($this->enviroment == 'uat-testing') {
                     $this->api_endpoint = 'https://api.vodapaygatewayuat.vodacom.co.za/V2/Pay/OnceOff';
