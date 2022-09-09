@@ -4,7 +4,7 @@
  * Plugin Name: VodaPay Gateway for Woocommerce
  * Plugin URI: https://www.vodacombusiness.co.za/business/solutions/financial-services/accept-payments?icmp=VB/Menu/Solutions/Financialservices/P3/Acceptpayments
  * Description: This plugin allows ecommerce merchants to accept online payments from customers.
- * Version: 2.0.5
+ * Version: 2.0.6
  * Author: VodaPay Gateway
  * Author URI: https://www.vodacombusiness.co.za/business/solutions/financial-services/accept-payments?icmp=VB/Menu/Solutions/Financialservices/P3/Acceptpayments
  * License: 2.0.0
@@ -84,7 +84,7 @@ function vodapay_payment_init()
 
                 if ($this->enviroment == 'virtual-testing') {
                     $this->api_endpoint = 'https://api.vodapaygatewayuat.vodacom.co.za/V2/Pay/OnceOff';
-                    $this->test_header = true;
+                    $this->test_header = false;
                 }
                 if ($this->enviroment == 'uat-testing') {
                     $this->api_endpoint = 'https://api.vodapaygatewayuat.vodacom.co.za/V2/Pay/OnceOff';
@@ -326,11 +326,7 @@ function vodapay_payment_init()
 				
                 $callback_url = $this->appendQuery($this->plugin_callback_url, ['wc-api' => strtolower(get_class($this))]);
 				
-				echo '<pre>'; 
-				echo($callback_url);
-				echo '</pre>';
-				
-	//	echo $callback_url;
+				//	echo $callback_url;
                 //TODO add ereceipts				
                 //$notificationMethod = new \VodaPayGatewayClient\Model\PaymentNotificationMethod;
                 //$notifInfo = new \VodaPayGatewayClient\Model\PaymentNotificationDataModel;
@@ -385,13 +381,6 @@ function vodapay_payment_init()
                 $context  = stream_context_create($options);
                 $result = file_get_contents($url, false, $context);
                 $response = json_decode($result);
-				
-				echo '<pre>';
-				echo(print_r($options));
-				echo(print_r($context));
-				echo(print_r($result));
-				echo(print_r($response));
-				echo '</pre>';
                 
 				try {
 					
@@ -415,6 +404,7 @@ function vodapay_payment_init()
                 } catch (Exception $e) {
                     echo 'Exception when calling DefaultApi->initiateImmediatePayment: ', $e->getMessage(), PHP_EOL;
                 }
+				
             }
 
             /**
