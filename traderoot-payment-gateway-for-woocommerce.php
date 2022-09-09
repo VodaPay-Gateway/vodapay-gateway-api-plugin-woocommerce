@@ -349,7 +349,7 @@ function vodapay_payment_init()
                 );
                 $data = array(
                     'DelaySettlement' => false,
-                    'EchoData' => json_encode(['order_id' => $order_id]),
+                    'EchoData' => strval($order_id),
                     'TraceId' => strval($traceId),
                     'Amount' => $amount,
                     'Basket' => $basketItems,
