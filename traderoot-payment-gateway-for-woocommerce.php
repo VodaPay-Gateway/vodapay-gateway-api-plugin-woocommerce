@@ -2,11 +2,11 @@
 
 /**
  * Plugin Name: VodaPay Gateway for Woocommerce
- * Plugin URI: https://www.vodacombusiness.co.za/business/solutions/financial-services/accept-payments?icmp=VB/Menu/Solutions/Financialservices/P3/Acceptpayments
+ * Plugin URI: https://docs.vodapaygateway.vodacom.co.za/docs/plugins-sdks/plugins/Woocommerce
  * Description: This plugin allows ecommerce merchants to accept online payments from customers.
- * Version: 2.0.6
+ * Version: 2.1.1
  * Author: VodaPay Gateway
- * Author URI: https://www.vodacombusiness.co.za/business/solutions/financial-services/accept-payments?icmp=VB/Menu/Solutions/Financialservices/P3/Acceptpayments
+ * Author URI: https://docs.vodapaygateway.vodacom.co.za/docs/plugins-sdks/plugins/Woocommerce
  * License: 2.0.0
  * License URL: http://www.gnu.org/licenses/gpl-2.0.txt
  * text-domain: wc-vodapay-gateway
@@ -60,7 +60,7 @@ function vodapay_payment_init()
             {
                 $this->id = 'vodapay';
 
-                $this->icon = apply_filters('woo_vodapay_icon', plugins_url('/assets/icon.webp', __FILE__));
+                $this->icon = apply_filters('woo_vodapay_icon', plugins_url('/assets/vodapay-gateway.svg', __FILE__));
                 $this->has_fields = false;
 
                 $this->method_title = __('Vodapay Payment Gateway', 'wc-vodapay');
@@ -70,12 +70,13 @@ function vodapay_payment_init()
                 $this->init_settings(); // Load the settings.
 
                 $this->enabled = $this->get_option('enabled');
-
+				
                 $this->title = 'VodaPay Gateway';
                 $this->description = 'Proceed to Secure Checkout with VodaPay Gateway';
                 $this->instructions = $this->get_option('instructions');
                 $this->enviroment = $this->get_option('enviroment');
-
+				
+				
                 /*$this->options = array(
                     'virtual-testing' => __( 'Virtual Testing', $this->enviroment ),
                     'live-testing' => __( 'Live Testing', $this->enviroment ),
@@ -84,7 +85,7 @@ function vodapay_payment_init()
 
                 if ($this->enviroment == 'virtual-testing') {
                     $this->api_endpoint = 'https://api.vodapaygatewayuat.vodacom.co.za/V2/Pay/OnceOff';
-                    $this->test_header = false;
+                    $this->test_header = true;
                 }
                 if ($this->enviroment == 'uat-testing') {
                     $this->api_endpoint = 'https://api.vodapaygatewayuat.vodacom.co.za/V2/Pay/OnceOff';
@@ -154,7 +155,7 @@ function vodapay_payment_init()
                         'options' => array(
                             'virtual-testing' => __('Virtual Testing'),
                             'uat-testing' => __('UAT Testing'),
-                            'production ' => __('Production')
+                            'production' => __('Production')
                         )
                     ),
                     'api_key' => array(
@@ -170,14 +171,6 @@ function vodapay_payment_init()
                         'default' => __('Default instructions', 'wc-vodapay'),
                         'desc_tip' => true,
                         'description' => __('Instructions that will be added to the thank you page and order email', 'wc-vodapay')
-                    ),
-                    'immediate_capture'         => array(
-                        'title'       => __('Capture', 'wc-vodapay'),
-                        'label'       => __('Capture charge immediately', 'wc-vodapay'),
-                        'type'        => 'checkbox',
-                        'description' => __('Whether or not to immediately capture the charge. When unchecked, the charge issues an authorization and will need to be captured later, useful for ecommerce scenarios where products are shipped later or may be cancelled when unavailable.', 'wc-vodapay'),
-                        'default'     => 'yes',
-                        'desc_tip'    => true,
                     ),
                     'merchant_image_url' => array(
                         'title' => __('Merchant Logo URL', 'wc-vodapay'),
@@ -378,14 +371,19 @@ function vodapay_payment_init()
 					);
 				}
 
-                $context  = stream_context_create($options);
+                /*$context  = stream_context_create($options);
                 $result = file_get_contents($url, false, $context);
-                $response = json_decode($result);
-                
+                $response = json_decode($result);*/
+				
 				try {
 					
-                    $responseCode = $response->data->responseCode;
-                    if (in_array($responseCode, ResponseCodeConstants::getGoodResponseCodeList())) {
+					$context  = stream_context_create($options);
+					$result = file_get_contents($url, false, $context);
+					$response = json_decode($result);
+                    
+					$responseCode = $response->data->responseCode;
+                    
+					if (in_array($responseCode, ResponseCodeConstants::getGoodResponseCodeList())) {
                         //SUCCESS
                         if ($responseCode == "00") {
                             $initiationUrl = $response->data->initiationUrl;
@@ -397,9 +395,10 @@ function vodapay_payment_init()
                         $responseMessages = ResponseCodeConstants::getResponseText();
                         $failureMsg = $responseMessages[$responseCode];
                         $this->informTxnFailure($order,$failureMsg . '[' . $responseCode . ']{' . $responseObj->responseMessage . '}',);
+						
                     } else {
 						
-                        $this->informTxnFailure($order,'VodaPay Gateway Api Error');
+                        $this->informTxnFailure($order,"VodaPay Gateway Api Error:System error");
                     }
                 } catch (Exception $e) {
                     echo 'Exception when calling DefaultApi->initiateImmediatePayment: ', $e->getMessage(), PHP_EOL;
