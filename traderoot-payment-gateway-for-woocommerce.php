@@ -398,7 +398,7 @@ function vodapay_payment_init()
 						
                     } else {
 						
-                        $this->informTxnFailure($order,"VodaPay Gateway Api Error:System error");
+                        $this->informTxnFailure($order,"VodaPay Gateway Api Error:System error code $responseCode");
                     }
                 } catch (Exception $e) {
                     echo 'Exception when calling DefaultApi->initiateImmediatePayment: ', $e->getMessage(), PHP_EOL;
