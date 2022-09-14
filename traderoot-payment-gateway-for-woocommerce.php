@@ -4,7 +4,7 @@
  * Plugin Name: VodaPay Gateway for Woocommerce
  * Plugin URI: https://docs.vodapaygateway.vodacom.co.za/docs/plugins-sdks/plugins/Woocommerce
  * Description: This plugin allows ecommerce merchants to accept online payments from customers.
- * Version: 2.1.1
+ * Version: 2.1.2
  * Author: VodaPay Gateway
  * Author URI: https://vodapay.vodacom.co.za/vodapay/personal/home
  * License: 2.0.0
