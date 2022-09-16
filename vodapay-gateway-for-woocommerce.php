@@ -368,23 +368,34 @@ function vodapay_payment_init()
 					);
 				}
 				
-// 				$context  = stream_context_create($options);
-// 				$result = file_get_contents($url, false, $context);
-// 				if (($result == FALSE) || is_null($result))
-// 				{
-// 					echo "<pre>";
-// 						print_r($result);
-// 						print_r($context);
-// 					echo "</pre>";
-// 				}
-
                 try {
 
                 	$context  = stream_context_create($options);
+					$worked = false;
+					$errorMessage = "";
+					
+					for ( $i=0; $i<3 ; $i++) 
+					{
                 	$result = file_get_contents($url, false, $context);
+						
+					   if( $result !== FALSE ) 
+					   {
+						  $worked = TRUE;
+						  break;
+					   }
+					}
+					
+					if($worked == false)
+					{
+						 $error = error_get_last();
+						 throw new Exception(implode($error));
+					}
+					else{
+						
                 	$response = json_decode($result);
 
                     $responseCode = $response->data->responseCode;
+						
                     if (in_array($responseCode, ResponseCodeConstants::getGoodResponseCodeList())) {
                         //SUCCESS
                         if ($responseCode == "00") {
@@ -397,11 +408,12 @@ function vodapay_payment_init()
                         $responseMessages = ResponseCodeConstants::getResponseText();
                         $failureMsg = $responseMessages[$responseCode];
                         $this->informTxnFailure($order,$failureMsg . '[' . $responseCode . ']{' . $responseObj->responseMessage . '}',);
-                    } else {
-                        $this->informTxnFailure($order,"VodaPay Gateway Api Error:System error code $responseCode");
+						}
                     }
                 } catch (Exception $e) {
-                    echo 'Exception when calling DefaultApi->initiateImmediatePayment: ', $e->getMessage(), PHP_EOL;
+					
+					$this->informTxnFailure($order,"VodaPay Gateway Api Error:".$e->getMessage());
+                    //echo 'Exception when calling DefaultApi->initiateImmediatePayment: ', $e->getMessage(), PHP_EOL;
                 }
             }
 
