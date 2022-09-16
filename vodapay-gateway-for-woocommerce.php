@@ -70,13 +70,12 @@ function vodapay_payment_init()
                 $this->init_settings(); // Load the settings.
 
                 $this->enabled = $this->get_option('enabled');
-				
+
                 $this->title = 'VodaPay Gateway';
                 $this->description = 'Proceed to Secure Checkout with VodaPay Gateway';
                 $this->instructions = $this->get_option('instructions');
                 $this->enviroment = $this->get_option('enviroment');
-				
-				
+
                 /*$this->options = array(
                     'virtual-testing' => __( 'Virtual Testing', $this->enviroment ),
                     'live-testing' => __( 'Live Testing', $this->enviroment ),
@@ -104,7 +103,7 @@ function vodapay_payment_init()
                 $this->theme = $this->get_option('theme');
 
                 $this->plugin_callback_url =  site_url() . '?wc-api=' . strtolower(get_class($this));
-				
+
                 $this->notification_url = $this->get_option('notification_url');
 
                 $this->debug = $this->get_option('debug');
@@ -316,10 +315,8 @@ function vodapay_payment_init()
 				echo($styling->BannerUrl);
 				$styling->Theme = $this->theme;
 				*/
-				
-                $callback_url = $this->appendQuery($this->plugin_callback_url, ['wc-api' => strtolower(get_class($this))]);
-				
-				//	echo $callback_url;
+                $callback_url = $this->appendQuery($this->plugin_callback_url, ['wc-api' => strtolower(get_class($this))]);         
+	//	echo $callback_url;
                 //TODO add ereceipts				
                 //$notificationMethod = new \VodaPayGatewayClient\Model\PaymentNotificationMethod;
                 //$notifInfo = new \VodaPayGatewayClient\Model\PaymentNotificationDataModel;
@@ -370,40 +367,42 @@ function vodapay_payment_init()
 						)
 					);
 				}
-
-                /*$context  = stream_context_create($options);
-                $result = file_get_contents($url, false, $context);
-                $response = json_decode($result);*/
 				
-				try {
-					
-					$context  = stream_context_create($options);
-					$result = file_get_contents($url, false, $context);
-					$response = json_decode($result);
-                    
-					$responseCode = $response->data->responseCode;
-                    
-					if (in_array($responseCode, ResponseCodeConstants::getGoodResponseCodeList())) {
+// 				$context  = stream_context_create($options);
+// 				$result = file_get_contents($url, false, $context);
+// 				if (($result == FALSE) || is_null($result))
+// 				{
+// 					echo "<pre>";
+// 						print_r($result);
+// 						print_r($context);
+// 					echo "</pre>";
+// 				}
+
+                try {
+
+                	$context  = stream_context_create($options);
+                	$result = file_get_contents($url, false, $context);
+                	$response = json_decode($result);
+
+                    $responseCode = $response->data->responseCode;
+                    if (in_array($responseCode, ResponseCodeConstants::getGoodResponseCodeList())) {
                         //SUCCESS
                         if ($responseCode == "00") {
                             $initiationUrl = $response->data->initiationUrl;
                             header("Location: $initiationUrl");
-							//used to make request
+                            //used to make request
                         }
                     } elseif (in_array($responseCode, ResponseCodeConstants::getBadResponseCodeList())) {
                         //FAILURE
                         $responseMessages = ResponseCodeConstants::getResponseText();
                         $failureMsg = $responseMessages[$responseCode];
                         $this->informTxnFailure($order,$failureMsg . '[' . $responseCode . ']{' . $responseObj->responseMessage . '}',);
-						
                     } else {
-						
                         $this->informTxnFailure($order,"VodaPay Gateway Api Error:System error code $responseCode");
                     }
                 } catch (Exception $e) {
                     echo 'Exception when calling DefaultApi->initiateImmediatePayment: ', $e->getMessage(), PHP_EOL;
                 }
-				
             }
 
             /**
@@ -485,11 +484,9 @@ function vodapay_payment_init()
              * Handles the webhook callback response when user is redirected back from Vodapay to website
              * after completing(success/failure) the payment
              */
-			
             public function handle_callback()
             {
                 $results = $_GET;
-				
                 require_once(dirname(__FILE__) . '/ResponseCodeConstants.php');
 
                 if ("yes" == $this->debug) {
@@ -499,31 +496,31 @@ function vodapay_payment_init()
                     $display .= "\n--------------------------------------------\n";
                     $this->log->add("wc-vodapay", $display);
                 }
-				
+
                 $responseObj = json_decode(base64_decode($results['data']));
                 $responseCode = $responseObj->responseCode;
 
                 $echoData = $responseObj->echoData;
                 $meta = json_decode($echoData, TRUE);
                 $order = new WC_Order($meta['order_id']);
-				
+
                 if (in_array($responseCode, ResponseCodeConstants::getGoodResponseCodeList())) {
                     //SUCCESS
-                    if ($responseCode == "00") 
-					{
+                    if ($responseCode == "00") {
                         if ("yes" == $this->debug) {
                             $this->log->add("wc-vodapay", "Webhook response code : " . $responseCode);
                         }
-						
+
                         if (true) {
+
                             $order->payment_complete();
-							
+
                             $refId = $responseObj->retrievalReferenceNumber;
                             $txnId = $responseObj->transactionId;
 
                             $str = preg_replace('/\D/', '', $refId);
                             $order = new WC_Order($str);
-							
+
                             if ("yes" == $this->debug) {
                                 $this->log->add("wc-vodapay", "response REF ID : " . $refId);
                                 $this->log->add("wc-vodapay", "response TXN ID : " . $txnId);
@@ -550,15 +547,10 @@ function vodapay_payment_init()
                     //FAILURE
                     $responseMessages = ResponseCodeConstants::getResponseText();
                     $failureMsg = $responseMessages[$responseCode];
-					$this->informTxnFailure($order,$failureMsg);
+                    $this->informTxnFailure($order,$failureMsg);
                 } else {
                     $this->informTxnFailure($order,$responseObj->responseMessage);
                 }
-				/*echo '<pre>'; 
-				echo(print_r($results));
-				echo(print_r($meta));
-				echo(print_r($order));
-				echo '</pre>';*/
             }
 
             /**************************
@@ -652,8 +644,7 @@ function vodapay_payment_init()
             {
                 wc_add_notice($msg, 'error');
                 do_action('woocommerce_set_cart_cookies',  true);
-				
-				wp_redirect($order->get_checkout_payment_url());
+                wp_redirect($order->get_checkout_payment_url());
             }
 
             private function appendQuery($url, $kvPairs)

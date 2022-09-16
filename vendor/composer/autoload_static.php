@@ -7,19 +7,11 @@ namespace Composer\Autoload;
 class ComposerStaticInit4377730a27282b3695137d7315bb0a0f
 {
     public static $files = array (
-        '7b11c4dc42b3b3023073cb14e519683c' => __DIR__ . '/..' . '/ralouphie/getallheaders/src/getallheaders.php',
-        'c964ee0ededf28c96ebd9db5099ef910' => __DIR__ . '/..' . '/guzzlehttp/promises/src/functions_include.php',
-        '6e3fae29631ef280660b3cdad06f25a8' => __DIR__ . '/..' . '/symfony/deprecation-contracts/function.php',
-        '37a3dc5111fe8f707ab4c132ef1dbc62' => __DIR__ . '/..' . '/guzzlehttp/guzzle/src/functions_include.php',
         '320cde22f66dd4f5d3fd621d3e88b98f' => __DIR__ . '/..' . '/symfony/polyfill-ctype/bootstrap.php',
         'e39a8b23c42d4e1452234d762b03835a' => __DIR__ . '/..' . '/ramsey/uuid/src/functions.php',
     );
 
     public static $prefixLengthsPsr4 = array (
-        'V' => 
-        array (
-            'VodaPayGatewayClient\\' => 21,
-        ),
         'S' => 
         array (
             'Symfony\\Polyfill\\Ctype\\' => 23,
@@ -28,25 +20,9 @@ class ComposerStaticInit4377730a27282b3695137d7315bb0a0f
         array (
             'Ramsey\\Uuid\\' => 12,
         ),
-        'P' => 
-        array (
-            'Psr\\Http\\Message\\' => 17,
-            'Psr\\Http\\Client\\' => 16,
-            'Payum\\ISO4217\\' => 14,
-        ),
-        'G' => 
-        array (
-            'GuzzleHttp\\Psr7\\' => 16,
-            'GuzzleHttp\\Promise\\' => 19,
-            'GuzzleHttp\\' => 11,
-        ),
     );
 
     public static $prefixDirsPsr4 = array (
-        'VodaPayGatewayClient\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/vodapay-gateway/vodapay-gateway-api-client-php/lib',
-        ),
         'Symfony\\Polyfill\\Ctype\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/polyfill-ctype',
@@ -54,31 +30,6 @@ class ComposerStaticInit4377730a27282b3695137d7315bb0a0f
         'Ramsey\\Uuid\\' => 
         array (
             0 => __DIR__ . '/..' . '/ramsey/uuid/src',
-        ),
-        'Psr\\Http\\Message\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/psr/http-factory/src',
-            1 => __DIR__ . '/..' . '/psr/http-message/src',
-        ),
-        'Psr\\Http\\Client\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/psr/http-client/src',
-        ),
-        'Payum\\ISO4217\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/payum/iso4217',
-        ),
-        'GuzzleHttp\\Psr7\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/guzzlehttp/psr7/src',
-        ),
-        'GuzzleHttp\\Promise\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/guzzlehttp/promises/src',
-        ),
-        'GuzzleHttp\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/guzzlehttp/guzzle/src',
         ),
     );
 
