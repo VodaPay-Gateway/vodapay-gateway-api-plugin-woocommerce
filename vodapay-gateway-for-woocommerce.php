@@ -4,7 +4,7 @@
  * Plugin Name: VodaPay Gateway for Woocommerce
  * Plugin URI: https://docs.vodapaygateway.vodacom.co.za/docs/plugins-sdks/plugins/Woocommerce
  * Description: This plugin allows ecommerce merchants to accept online payments from customers.
- * Version: 2.1.2
+ * Version: 2.1.3
  * Author: VodaPay Gateway
  * Author URI: https://vodapay.vodacom.co.za/vodapay/personal/home
  * License: 2.0.0
@@ -172,14 +172,14 @@ function vodapay_payment_init()
                         'description' => __('Instructions that will be added to the thank you page and order email', 'wc-vodapay')
                     ),
                     'merchant_image_url' => array(
-                        'title' => __('Merchant Logo URL', 'wc-vodapay'),
+                        'title' => __('Merchant Logo URL', 'wc-vodapay') . __('(optional)', 'wc-vodapay'),
                         'type' => 'textarea',
                         'default' => $this->get_custom_logo_url(),
                         'desc_tip' => true,
                         'description' => __('The merchant Logo URL', 'wc-vodapay')
                     ),
                     'merchant_message_url' => array(
-                        'title' => __('Merchant Message Url', 'wc-vodapay'),
+                        'title' => __('Merchant Message Url', 'wc-vodapay') . __('(optional)', 'wc-vodapay'),
                         'type' => 'textarea',
                         'default' => '',
                         'desc_tip' => true,
@@ -328,11 +328,19 @@ function vodapay_payment_init()
                 //echo strval($payload);			
 
                 $basketItems = $this->getBasketItemsArray($order);
-
-                $notifications = array(
-                    'CallbackUrl' => $callback_url,
-                    'NotificationUrl' => $this->notification_url,
-                );
+				if ($this->notification_url == '') 
+				{
+				  $notifications = array(
+									'CallbackUrl' => $callback_url
+								   );
+				} else 
+				{
+				  $notifications = array(
+									'CallbackUrl' => $callback_url,
+									'NotificationUrl' => $this->notification_url,
+                   );
+				}
+				
                 $data = array(
                     'DelaySettlement' => false,
                     'EchoData' => strval($order_id),
@@ -376,7 +384,8 @@ function vodapay_payment_init()
 					
 					for ( $i=0; $i<3 ; $i++) 
 					{
-                	$result = file_get_contents($url, false, $context);
+						
+                		$result = file_get_contents($url, false, $context);
 						
 					   if( $result !== FALSE ) 
 					   {
