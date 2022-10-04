@@ -20,19 +20,18 @@ if (isset($_GET['wc-api'])) {
     $getParams = $_GET['wc-api'];
     $getParamSubString = substr($getParams, 0, 23);
     $whatWeGet = "wc_vodapay_gateway?";
-    $whatWeNeed = "wc_vodapay__gateway&";
-
-    if ($getParamSubString == $whatWeGet) {
-        $oldParam = array("wc_vodapay__gateway?");
-        $replaceParam = array("wc_vodapay__gateway&");
-        $newParam = str_replace($oldParam, $replaceParam, $getParams);
-
-        $getMainUrl = $_SERVER['SERVER_NAME'];
-        $location = $getMainUrl . "?wc-api=" . $newParam;
+    $whatWeNeed = "wc_vodapay_gateway&";
+	
+	if (str_contains($getParamSubString, $whatWeGet)) {
+		$replaceStr = str_replace($whatWeGet,$whatWeNeed,$getParams);
+		$getMainUrl = $_SERVER['SERVER_NAME'];
+        $location = $getMainUrl . "?wc-api=" . $replaceStr;
+		echo $location;
 
         header('Location:' . $location);
         exit();
-    }
+	}
+
 }
 
 add_action('plugins_loaded', 'vodapay_payment_init', 11);
@@ -316,7 +315,7 @@ function vodapay_payment_init()
 				$styling->Theme = $this->theme;
 				*/
                 $callback_url = $this->appendQuery($this->plugin_callback_url, ['wc-api' => strtolower(get_class($this))]);         
-	//	echo $callback_url;
+				//	echo $callback_url;
                 //TODO add ereceipts				
                 //$notificationMethod = new \VodaPayGatewayClient\Model\PaymentNotificationMethod;
                 //$notifInfo = new \VodaPayGatewayClient\Model\PaymentNotificationDataModel;
@@ -386,6 +385,7 @@ function vodapay_payment_init()
 					{
 						
                 		$result = file_get_contents($url, false, $context);
+						//echo $result;
 						
 					   if( $result !== FALSE ) 
 					   {
