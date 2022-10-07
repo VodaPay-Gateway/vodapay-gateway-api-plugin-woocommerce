@@ -70,8 +70,8 @@ function vodapay_payment_init()
 
                 $this->enabled = $this->get_option('enabled');
 
-                $this->title = 'VodaPay Gateway';
-                $this->description = 'Proceed to Secure Checkout with VodaPay Gateway';
+                //$this->title = 'VodaPay Gateway';
+                $this->description = 'Proceed to Secure Checkout';
                 $this->instructions = $this->get_option('instructions');
                 $this->enviroment = $this->get_option('enviroment');
 
