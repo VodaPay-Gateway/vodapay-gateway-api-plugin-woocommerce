@@ -45,9 +45,11 @@ class ResponseCodeConstants {
 	const RESPONSE_CODE_EXPIRED_CARD = "54";
 	const RESPONSE_CODE_NO_CARD_RECORD = "56";
 	const RESPONSE_CODE_RESPONSE_RECEIVED_TOO_LATE = "68";
+	const RESPONSE_CODE_NO_RESPONSE = "69";
 	const RESPONSE_CODE_ISSUER_OR_SWITCH_INOPERATIVE = "91";
 	const RESPONSE_CODE_ROUTING_ERROR = "92";
 	const RESPONSE_CODE_SYSTEM_MALFUNCTION = "96";
+	const RESPONSE_CODE_3DS_FAIL = "99";
 	const RESPONSE_CODE_INVALID_SERVICE_LEVEL = "D1";
 	const RESPONSE_CODE_INVALID_TRANSACTION_PARAMETERS_USAGE = "D2";
 	const RESPONSE_CODE_REPEAT_PARAMETER_MISMATCH = "D3";
@@ -67,9 +69,11 @@ class ResponseCodeConstants {
 		self::RESPONSE_CODE_EXPIRED_CARD,
 		self::RESPONSE_CODE_NO_CARD_RECORD,
 		self::RESPONSE_CODE_RESPONSE_RECEIVED_TOO_LATE,
+		self::RESPONSE_CODE_NO_RESPONSE,
 		self::RESPONSE_CODE_ISSUER_OR_SWITCH_INOPERATIVE,
 		self::RESPONSE_CODE_ROUTING_ERROR,
 		self::RESPONSE_CODE_SYSTEM_MALFUNCTION,
+		self::RESPONSE_CODE_3DS_FAIL,
 		self::RESPONSE_CODE_INVALID_SERVICE_LEVEL,
 		self::RESPONSE_CODE_INVALID_TRANSACTION_PARAMETERS_USAGE,
 		self::RESPONSE_CODE_REPEAT_PARAMETER_MISMATCH,
@@ -93,12 +97,14 @@ class ResponseCodeConstants {
 		self::RESPONSE_CODE_EXPIRED_CARD => "Expired card",
 		self::RESPONSE_CODE_NO_CARD_RECORD => "No card record",
 		self::RESPONSE_CODE_RESPONSE_RECEIVED_TOO_LATE => "Response received too late",
+		self::RESPONSE_CODE_NO_RESPONSE => "No Response",
 		self::RESPONSE_CODE_ISSUER_OR_SWITCH_INOPERATIVE => "Issuer or switch inoperative",
 		self::RESPONSE_CODE_ROUTING_ERROR => "Routing error",
 		self::RESPONSE_CODE_SYSTEM_MALFUNCTION => "System malfunction",
+		self::RESPONSE_CODE_3DS_FAIL => "3DSecure Fail",
 		self::RESPONSE_CODE_INVALID_SERVICE_LEVEL => "Invalid Service Level or level exceeded.",
 		self::RESPONSE_CODE_REPEAT_PARAMETER_MISMATCH => "Repeat attempted, but certain parameters do not match.",
-		self::RESPONSE_CODE_TRANSACTION_IN_PROGRESS => "A transaction with the sameparameters is already in progress.");
+		self::RESPONSE_CODE_TRANSACTION_IN_PROGRESS => "A transaction with the same parameters is already in progress.");
 		return $result;
 	}
 	
