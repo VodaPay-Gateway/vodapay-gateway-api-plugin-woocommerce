@@ -70,7 +70,7 @@ function vodapay_payment_init()
 
                 $this->enabled = $this->get_option('enabled');
 
-                //$this->title = 'VodaPay Gateway';
+                $this->title = 'VodaPay Gateway';
                 $this->description = 'Proceed to Secure Checkout';
                 $this->instructions = $this->get_option('instructions');
                 $this->enviroment = $this->get_option('enviroment');
@@ -101,7 +101,7 @@ function vodapay_payment_init()
                 $this->merchant_message_url = $this->get_option('merchant_message_url');
                 $this->theme = $this->get_option('theme');
 
-                $this->plugin_callback_url =  site_url() . '?wc-api=' . strtolower(get_class($this));
+                $this->plugin_callback_url =  site_url('','https') . '?wc-api=' . strtolower(get_class($this));
 
                 $this->notification_url = $this->get_option('notification_url');
 
@@ -347,8 +347,10 @@ function vodapay_payment_init()
                     'Amount' => $amount,
                     'Basket' => $basketItems,
                     'Notifications' => $notifications,
-					'Styling' => $styling
+					'Styling' => $styling//,
+					//'Communication' = > $communication
                 );
+				 echo '<pre>'; print_r($data); echo '</pre>';
 
                 // API URL
                 $url = $this->api_endpoint;
@@ -453,9 +455,9 @@ function vodapay_payment_init()
 
                 $order = new WC_Order($order_id);
 
-                /*echo "<pre>";
-				print_r($order);
-				echo "</pre>";*/
+//                 echo "<pre>";
+// 				print_r($order);
+// 				echo "</pre>";
 
                 //$order->update_status('pending-payment', __('Awaiting Vodapay payement', 'wc-vodapay'));
 
@@ -524,6 +526,7 @@ function vodapay_payment_init()
                 $echoData = $responseObj->echoData;
                 $meta = json_decode($echoData, TRUE);
                 $order = new WC_Order($meta['order_id']);
+				
 
                 if (in_array($responseCode, ResponseCodeConstants::getGoodResponseCodeList())) {
                     //SUCCESS
