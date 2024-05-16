@@ -1,4 +1,4 @@
-const settings = window.wc.wcSettings.getSetting( 'WC_vodapay_gateway_data', {} );
+const settings = window.wc.wcSettings.getSetting( 'vodapay_data', {} );
 const label = window.wp.htmlEntities.decodeEntities( settings.title ) || window.wp.i18n.__( 'Test title', 'Even longer test title' );
 const Content = () => {
     return window.wp.htmlEntities.decodeEntities( settings.description || '' );

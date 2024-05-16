@@ -45,7 +45,7 @@ function woocommerce_payment_plugin () {
         return;
     }
 
-    include (plugin_dir_path(__FILE__).'vodapay-gateway-for-woocommerce-processor.php');
+    include (plugin_dir_path(__FILE__).'/includes/vodapay-gateway-for-woocommerce-processor.php');
 }
 
 //Adds VPG payment plugin to checkout payment gateway list
@@ -103,7 +103,7 @@ function register_order_approval_payment_method_type() {
     }
 
     // Include the custom Blocks Checkout class
-    require_once plugin_dir_path(__FILE__) . 'vodapay-gateway-for-woocommerce-class-block.php';
+    require_once plugin_dir_path(__FILE__) . '/includes/vodapay-gateway-for-woocommerce-class-block.php';
 
     // Hook the registration function to the 'woocommerce_blocks_payment_method_type_registration' action
     add_action(

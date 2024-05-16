@@ -19,7 +19,7 @@
              {
                  $this->id = 'vodapay';
  
-                 $this->icon = apply_filters('woo_vodapay_icon', plugins_url('/assets/vodapay-gateway.svg', __FILE__));
+                 $this->icon = apply_filters('woo_vodapay_icon', plugins_url('../assets/vodapay-gateway.svg', __FILE__));
                  $this->has_fields = false;
  
                  $this->method_title = __('Vodapay Payment Gateway', 'wc-vodapay');
@@ -239,7 +239,7 @@
              {
                  $order = new WC_Order($order_id);
  
-                 require_once(dirname(__FILE__) . '/ResponseCodeConstants.php');
+                 require_once(dirname(__FILE__) . 'ResponseCodeConstants.php');
  
                  $rlength = 10;
                  $traceId = substr(
@@ -446,7 +446,7 @@
              public function handle_callback()
              {
                  $results = $_GET;
-                 require_once(dirname(__FILE__) . '/ResponseCodeConstants.php');
+                 require_once(dirname(__FILE__) . 'ResponseCodeConstants.php');
  
                  if ("yes" == $this->debug) {
                      $this->log->add("wc-vodapay", "Function `check_ipn_response` init");
