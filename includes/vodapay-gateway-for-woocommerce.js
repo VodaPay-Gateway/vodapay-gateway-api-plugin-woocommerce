@@ -4,7 +4,7 @@ const Content = () => {
     return window.wp.htmlEntities.decodeEntities( settings.description || '' );
 };
 const Block_Gateway = {
-    name: 'WC_vodapay_gateway',
+    name: 'vodapay',
     label: label,
     content: Object( window.wp.element.createElement )( Content, null ),
     edit: Object( window.wp.element.createElement )( Content, null ),
