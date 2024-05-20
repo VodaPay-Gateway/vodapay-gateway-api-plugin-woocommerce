@@ -301,11 +301,11 @@
                     'Styling' => $styling//,
                     //'Communication' = > $communication
                 );
-                echo '<pre>'; print_r($data); echo '</pre>';
+                //echo '<pre>'; print_r($data); echo '</pre>';
 
                 // API URL
                 $url = $this->api_endpoint;
-                echo '<pre>'; print_r($url); echo '</pre>';
+                //echo '<pre>'; print_r($url); echo '</pre>';
                 $options = array(
                     'http' => array(
                         'method'  => 'POST',
