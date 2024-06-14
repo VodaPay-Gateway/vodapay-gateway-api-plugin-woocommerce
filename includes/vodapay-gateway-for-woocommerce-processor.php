@@ -461,58 +461,64 @@
             */
             public function handle_callback()
             {
-                $results = $_GET;
+                $results = $_GET['data'];
                 require_once(dirname(__FILE__) . '/ResponseCodeConstants.php');
-
+ 
                 if ("yes" == $this->debug) {
                     $this->log->add("wc-vodapay", "Function `check_ipn_response` init");
                     $display = "\n-------------------------------------------\n";
-                    $display .= "GET/POST data: " . $results['data'];
+                    $display .= "GET/POST data: " . $results;
                     $display .= "\n--------------------------------------------\n";
                     $this->log->add("wc-vodapay", $display);
                 }
-
-                $responseObj = json_decode(base64_decode($results['data']));
+ 
+                // if(substr_count($results, "?") > 1)
+                // {
+                //     $explodedResults = explode('?', $results)[1];
+                //     $results = substr($explodedResults,4);
+                // }
+ 
+                $responseObj = json_decode(base64_decode($results));
                 $responseCode = $responseObj->responseCode;
-
+ 
                 $echoData = $responseObj->echoData;
                 $meta = json_decode($echoData, TRUE);
                 $order = new WC_Order($meta['order_id']);
-                
-
+               
+ 
                 if (in_array($responseCode, ResponseCodeConstants::getGoodResponseCodeList())) {
                     //SUCCESS
                     if ($responseCode == "00") {
                         if ("yes" == $this->debug) {
                             $this->log->add("wc-vodapay", "Webhook response code : " . $responseCode);
                         }
-
+ 
                         if (true) {
-
+ 
                             $order->payment_complete();
-
+ 
                             $refId = $responseObj->retrievalReferenceNumber;
                             $txnId = $responseObj->transactionId;
-
+ 
                             $str = preg_replace('/\D/', '', $refId);
                             $order = new WC_Order($str);
-
+ 
                             if ("yes" == $this->debug) {
                                 $this->log->add("wc-vodapay", "response REF ID : " . $refId);
                                 $this->log->add("wc-vodapay", "response TXN ID : " . $txnId);
                                 $this->log->add("wc-vodapay", "response Order : " . $order);
                             }
-
+ 
                             $success_msg = sprintf(
                                 "%s payment completed with Transaction Id of '%s'",
                                 'Vodapay',
                                 $txnId
                             );
-
+ 
                             $order->add_order_note($success_msg);
                             $order->update_meta_data('vodapay_payment_ref_id', $refId);
                             $order->update_meta_data('vodapay_payment_txn_id', $txnId);
-
+ 
                             //WC()->cart->empty_cart();
                             wc_add_notice($success_msg, 'success');
                             $order->update_status('wc-processing');
