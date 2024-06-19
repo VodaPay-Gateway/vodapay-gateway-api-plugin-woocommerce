@@ -1,4 +1,3 @@
-
 <?php
 
 /**
@@ -27,8 +26,6 @@ if (isset($_GET['wc-api'])) {
 		$replaceStr = str_replace($whatWeGet,$whatWeNeed,$getParams);
 		$getMainUrl = $_SERVER['SERVER_NAME'];
         $location = $getMainUrl . "?wc-api=" . $replaceStr;
-		echo $location;
-
         header('Location:' . $location);
         exit();
 	}
