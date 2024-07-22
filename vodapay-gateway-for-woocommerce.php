@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Plugin Name: VodaPay Gateway for Woocommerce
  * Plugin URI: https://docs.vodapaygateway.vodacom.co.za/docs/plugins-sdks/plugins/WooCommerce/Overview
